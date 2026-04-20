@@ -166,6 +166,7 @@ class SubSessionOrchestrator:
                 adapter=adapter,
                 cwd=cwd,
                 prompt=prompt,
+                model=None,
                 parent_session_id=runtime.view.owner_session_id,
                 root_session_id=runtime.view.owner_session_id,
             )

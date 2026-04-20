@@ -30,12 +30,14 @@ class AgentInfo(BaseModel):
     command: str
     installed: bool
     description: str
+    supported_models: list[str] = Field(default_factory=list)
 
 
 class CreateSessionRequest(BaseModel):
     agent_id: str = Field(description="Agent adapter id")
     cwd: str = Field(default=".", description="Working directory")
     prompt: Optional[str] = Field(default=None, description="Initial prompt")
+    model: Optional[str] = Field(default=None, description="Selected model")
     parent_session_id: Optional[str] = None
     root_session_id: Optional[str] = None
 
@@ -50,6 +52,7 @@ class SessionSummary(BaseModel):
     parent_session_id: Optional[str] = None
     root_session_id: Optional[str] = None
     depth: int
+    model: Optional[str] = None
 
 
 class SubTaskRequest(BaseModel):

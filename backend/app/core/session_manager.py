@@ -34,6 +34,7 @@ class SessionManager:
         adapter: AgentAdapter,
         cwd: str,
         prompt: Optional[str] = None,
+        model: Optional[str] = None,
         parent_session_id: Optional[str] = None,
         root_session_id: Optional[str] = None,
     ) -> SessionSummary:
@@ -57,9 +58,10 @@ class SessionManager:
             parent_session_id=parent_session_id,
             root_session_id=root_session_id or parent_session_id or session_id,
             depth=depth,
+            model=model,
         )
         env = {**os.environ, **adapter.env}
-        pty = PtyProcess.spawn(adapter.launch_argv(), cwd=cwd, env=env)
+        pty = PtyProcess.spawn(adapter.launch_argv(model=model), cwd=cwd, env=env)
 
         runtime = SessionRuntime(summary=summary, pty=pty)
 

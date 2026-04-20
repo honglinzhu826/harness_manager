@@ -3,11 +3,12 @@
 Harness Manager is an open-source GUI control plane for running multiple **code agent TUIs** through persistent PTY sessions.
 
 - 中文文档请见：[`README.zh-CN.md`](README.zh-CN.md)
+
 ## Core Idea
 
 - Harness Manager does **not** reimplement agent protocols.
 - It launches each agent as a real TUI process (`codex`, `claude`, `kimi`) with `ptyprocess`.
-- The GUI lets users manage sessions, send input, and stream outputs.
+- The GUI presents a unified chat interface; first message lazily creates the PTY session in backend.
 - A built-in orchestrator allows one session to spawn sub-sessions for sub-task workflows.
 
 ## Repository Layout
@@ -35,6 +36,12 @@ npm run dev
 ```
 
 Set `VITE_API_BASE` if backend is not on `http://localhost:8000/api`.
+
+### Unified Chat UX
+
+- Choose **Agent + Model + CWD** in one composer.
+- Sending the first message creates a backend PTY session.
+- Subsequent messages reuse the same session while UI remains chat-native (not terminal-native).
 
 ## MVP API Surface
 

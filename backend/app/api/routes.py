@@ -32,6 +32,7 @@ def build_router(state) -> APIRouter:
                 command=adapter.command,
                 installed=adapter.is_installed(),
                 description=adapter.description,
+                supported_models=adapter.supported_models,
             )
             for adapter in state.adapters.values()
         ]
@@ -46,6 +47,7 @@ def build_router(state) -> APIRouter:
                 adapter=adapter,
                 cwd=req.cwd,
                 prompt=req.prompt,
+                model=req.model,
                 parent_session_id=req.parent_session_id,
                 root_session_id=req.root_session_id,
             )
