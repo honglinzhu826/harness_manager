@@ -1,0 +1,146 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #0b1020;
+  color: #e5e7eb;
+}
+
+.chat-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1f2937;
+  padding: 14px 20px;
+  background: #0f172a;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.topbar p {
+  margin: 4px 0 0;
+  color: #94a3b8;
+}
+
+.topbar button {
+  padding: 8px 12px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #111827;
+  color: #e5e7eb;
+}
+
+.chat-main {
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 14px;
+  padding: 14px 0 18px;
+  min-height: calc(100vh - 78px);
+}
+
+.messages {
+  overflow: auto;
+  padding-right: 8px;
+}
+
+.empty {
+  color: #94a3b8;
+  text-align: center;
+  padding: 48px 0;
+}
+
+.bubble {
+  max-width: 82%;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 10px 0;
+}
+
+.bubble.user {
+  margin-left: auto;
+  background: #2563eb;
+}
+
+.bubble.assistant {
+  margin-right: auto;
+  background: #1f2937;
+}
+
+.bubble .role {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.bubble pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
+.composer {
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 12px;
+  background: #0f172a;
+}
+
+.selectors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.selectors label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+select,
+input,
+textarea,
+button {
+  background: #0b1223;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  border-radius: 8px;
+}
+
+select,
+input {
+  padding: 8px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 82px;
+  padding: 10px;
+}
+
+.input-row button {
+  padding: 0 18px;
+}
