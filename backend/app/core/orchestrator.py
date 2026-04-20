@@ -4,6 +4,7 @@ import threading
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from time import monotonic
 
 from app.adapters.base import AgentAdapter
 from app.core.session_manager import SessionManager
@@ -120,14 +121,26 @@ class SubSessionOrchestrator:
             threads.append(t)
             t.start()
 
+        deadline = monotonic() + request.timeout_s
         for t in threads:
-            t.join(timeout=request.timeout_s)
+            remaining = max(0.0, deadline - monotonic())
+            t.join(timeout=remaining)
 
         statuses = {task.status for task in runtime.view.tasks}
-        if JobStatus.failed in statuses:
+        if any(t.is_alive() for t in threads):
+            runtime.cancel_event.set()
+            runtime.view.status = JobStatus.failed
+            for task in runtime.view.tasks:
+                if task.status in {JobStatus.pending, JobStatus.running, JobStatus.launching}:
+                    task.status = JobStatus.failed
+                    task.error = "Task timed out before completion"
+                    task.ended_at = datetime.now(timezone.utc)
+        elif JobStatus.failed in statuses:
             runtime.view.status = JobStatus.failed
         elif JobStatus.cancelled in statuses:
             runtime.view.status = JobStatus.cancelled
+        elif JobStatus.pending in statuses or JobStatus.running in statuses or JobStatus.launching in statuses:
+            runtime.view.status = JobStatus.failed
         else:
             runtime.view.status = JobStatus.succeeded
         runtime.view.updated_at = datetime.now(timezone.utc)

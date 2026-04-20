@@ -51,6 +51,8 @@ def build_router(state) -> APIRouter:
             )
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except (FileNotFoundError, NotADirectoryError, OSError) as exc:
+            raise HTTPException(status_code=400, detail=f"Failed to spawn PTY session: {exc}") from exc
 
     @router.get("/sessions", response_model=list[SessionSummary])
     def list_sessions() -> list[SessionSummary]:
@@ -67,6 +69,8 @@ def build_router(state) -> APIRouter:
     def write_session(session_id: str, req: InputRequest) -> dict[str, str]:
         try:
             state.session_manager.write(session_id, req.data)
+        except ValueError as exc:
+            raise HTTPException(status_code=409, detail=str(exc)) from exc
         except KeyError as exc:
             raise HTTPException(status_code=404, detail="Session not found") from exc
         return {"status": "ok"}

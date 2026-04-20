@@ -106,6 +106,8 @@ class SessionManager:
         runtime = self._sessions.get(session_id)
         if not runtime:
             raise KeyError(session_id)
+        if not runtime.pty.isalive():
+            raise ValueError(f"Session {session_id} is closed")
         runtime.pty.write(data.encode())
 
     def read_since_last(self, session_id: str, max_chunks: int = 100) -> list[str]:
