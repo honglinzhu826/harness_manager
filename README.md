@@ -2,6 +2,7 @@
 
 Harness Manager is an open-source GUI control plane for running multiple **code agent TUIs** through persistent PTY sessions.
 
+- 中文文档请见：[`README.zh-CN.md`](README.zh-CN.md)
 ## Core Idea
 
 - Harness Manager does **not** reimplement agent protocols.
