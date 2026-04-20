@@ -16,6 +16,12 @@ export async function createSession(payload) {
   return res.json()
 }
 
+export async function getSession(sessionId) {
+  const res = await fetch(`${API_BASE}/sessions/${sessionId}`)
+  if (!res.ok) throw new Error('Failed to load session')
+  return res.json()
+}
+
 export async function pollSession(sessionId) {
   const res = await fetch(`${API_BASE}/sessions/${sessionId}/drain`)
   if (!res.ok) throw new Error('Failed to poll session')
